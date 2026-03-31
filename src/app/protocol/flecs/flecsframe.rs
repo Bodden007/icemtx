@@ -1,5 +1,5 @@
-use crate::app::format_field;
 use crate::app::protocol::flecs::FlecsField;
+use crate::app::protocol::flecs::format::format_field;
 
 pub struct FlecsFrame {
     values: [String; FlecsField::COUNT],

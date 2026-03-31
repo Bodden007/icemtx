@@ -1,6 +1,9 @@
 mod app;
-use app::run as AppRun;
+use app::run as app_run;
 
+/// Точка входа в программу.
+/// 
+/// Запускает основную логику приложения через вызов функции `app_run()`.
 fn main() {
-    AppRun();
+    app_run();
 }
