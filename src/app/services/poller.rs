@@ -24,6 +24,8 @@
 
 use crate::app::protocol::flecs::{FlecsField, FlecsFrame};
 use crate::app::transport::serial::SerialSession;
+use rand::prelude::*;
+use rand::rng;
 use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::{Duration, Instant};
@@ -90,8 +92,7 @@ impl Poller {
 
         while !self.shutdown.load(Ordering::Relaxed) {
             let mut frame = FlecsFrame::new_zero();
-            frame.set(FlecsField::RecircDensity, "12.34");
-            frame.set(FlecsField::MixWaterRate, "8");
+            Self::fill_random_values(&mut frame);
 
             let data = frame.build_line();
 
@@ -107,5 +108,50 @@ impl Poller {
         }
 
         println!("Поллер остановлен, порт освобождён.");
+    }
+
+    fn fill_random_values(frame: &mut FlecsFrame) {
+        let mut rng = rng();
+
+        frame.set(
+            FlecsField::RecircDensity,
+            format!("{:.2}", rng.random_range(10.0..16.0)),
+        );
+        frame.set(
+            FlecsField::DownholeDensity,
+            format!("{:.2}", rng.random_range(10.0..16.0)),
+        );
+
+        frame.set(
+            FlecsField::MixWaterRate,
+            rng.random_range(5..15).to_string(),
+        );
+        frame.set(
+            FlecsField::CombPumpRate,
+            format!("{:.1}", rng.random_range(1.0..8.0)),
+        );
+
+        frame.set(
+            FlecsField::PsPumpPress,
+            rng.random_range(1000..5000).to_string(),
+        );
+        frame.set(
+            FlecsField::DsPumpPress,
+            rng.random_range(1000..5000).to_string(),
+        );
+
+        frame.set(
+            FlecsField::Temperature,
+            rng.random_range(60..120).to_string(),
+        );
+
+        frame.set(
+            FlecsField::WaterValvePosition,
+            format!("{:.2}", rng.random_range(0.0..100.0)),
+        );
+        frame.set(
+            FlecsField::CmntValvePosition,
+            format!("{:.2}", rng.random_range(0.0..100.0)),
+        );
     }
 }

@@ -5,4 +5,5 @@ edition = "2024"
 
 [dependencies]
 ctrlc = "3.5.2"
+rand = "0.10.1"
 serialport = "4.9.0"

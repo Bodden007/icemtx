@@ -191,6 +191,7 @@ impl FlecsField {
                 precision: 0,
                 width: 12,
             }, // 0
+
             FlecsField::ExtraPress2 => FieldMeta {
                 unit: Some("psi"),
                 precision: 0,
