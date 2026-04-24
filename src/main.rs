@@ -21,6 +21,7 @@
 
 mod app;
 use app::run as app_run;
+use std::env;
 
 /// Точка входа в программу.
 ///
@@ -37,5 +38,18 @@ use app::run as app_run;
 /// Все ошибки обрабатываются внутри `app_run()`. Если происходит критическая ошибка,
 /// приложение завершится с соответствующим сообщением об ошибке.
 fn main() {
-    app_run();
+    let args: Vec<String> = env::args().collect();
+
+    let name_port = match args.get(1) {
+        Some(name) => {
+            println!("Name: {}", name);
+            name
+        }
+        None => {
+            println!("Я тебе не телепат. \n ПРИМЕР ВВОДА!!! \n env.exe COM1");
+            panic!()
+        }
+    };
+
+    app_run(&name_port);
 }

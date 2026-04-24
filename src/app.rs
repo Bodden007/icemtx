@@ -7,7 +7,7 @@ use crate::app::services::poller::Poller;
 use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
 
-pub fn run() {
+pub fn run(name_port: &str) {
     let shutdown = Arc::new(AtomicBool::new(false));
     let shutdown_clone = shutdown.clone();
 
@@ -20,7 +20,7 @@ pub fn run() {
     }
 
     // Запускаем поллер
-    match Poller::new(shutdown, "COM3", 9600) {
+    match Poller::new(shutdown, name_port, 9600) {
         Ok(mut poller) => poller.run(),
         Err(e) => eprintln!("Поллер не запустился: {}", e),
     }
