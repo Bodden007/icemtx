@@ -90,17 +90,40 @@ impl Poller {
     pub fn run(&mut self) {
         let mut next_tick = Instant::now();
 
+        // NOTE: Логируем только смену состояния отправки
+        enum SendState {
+            Unknown,
+            Ok,
+            Error,
+        }
+
+        let mut send_state = SendState::Unknown;
+
         while !self.shutdown.load(Ordering::Relaxed) {
             let mut frame = FlecsFrame::new_zero();
             Self::fill_random_values(&mut frame);
 
             let data = frame.build_line();
 
-            if let Err(e) = self.session.send(data.as_bytes()) {
-                eprintln!("Ошибка отправки: {}", e);
+            match self.session.send(data.as_bytes()) {
+                Ok(_) => {
+                    if !matches!(send_state, SendState::Ok) {
+                        println!("✅ Отправка в порт");
+                        println!("Закрытие порта ctrl+C");
+                        send_state = SendState::Ok;
+                    }
+                }
+
+                Err(e) => {
+                    if !matches!(send_state, SendState::Error) {
+                        eprintln!("Ошибка отправки: {}", e);
+                        println!("Закрытие порта ctrl+C");
+                        send_state = SendState::Error;
+                    }
+                }
             }
 
-            next_tick = next_tick + self.interval;
+            next_tick += self.interval;
             let sleep_time = next_tick.saturating_duration_since(Instant::now());
             if sleep_time > Duration::ZERO {
                 std::thread::sleep(sleep_time);

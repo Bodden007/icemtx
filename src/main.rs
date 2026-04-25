@@ -43,6 +43,7 @@ fn main() {
     let name_port = match args.get(1) {
         Some(name) => {
             println!("Name: {}", name);
+            println!("Закрытие порта ctrl+C");
             name
         }
         None => {
