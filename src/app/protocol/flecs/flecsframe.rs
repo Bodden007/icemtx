@@ -118,6 +118,10 @@ impl FlecsFrame {
             out.push_str(&format_field(field, self.get(field)));
         }
 
+        while out.ends_with(' ') {
+            out.pop();
+        }
+
         out.push_str("\r\n");
         out
     }

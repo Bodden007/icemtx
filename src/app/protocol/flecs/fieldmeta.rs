@@ -188,39 +188,39 @@ impl FlecsField {
 
             FlecsField::ExtraPress1 => FieldMeta {
                 unit: Some("psi"),
-                precision: 0,
-                width: 12,
-            }, // 0
-
-            FlecsField::ExtraPress2 => FieldMeta {
-                unit: Some("psi"),
-                precision: 0,
-                width: 12,
-            }, // 0
-
-            FlecsField::ExtraRate1 => FieldMeta {
-                unit: Some("bpm"),
                 precision: 1,
                 width: 12,
-            }, // 0.0
+            },
+
+            FlecsField::ExtraPress2 => FieldMeta {
+                unit: Some("un"),
+                precision: 1,
+                width: 12,
+            },
+
+            FlecsField::ExtraRate1 => FieldMeta {
+                unit: Some("un"),
+                precision: 1,
+                width: 12,
+            },
 
             FlecsField::ExtraTotal1 => FieldMeta {
                 unit: Some("bbl"),
                 precision: 1,
                 width: 12,
-            }, // 0.0
+            },
 
             FlecsField::ExtraRate2 => FieldMeta {
-                unit: Some("bpm"),
+                unit: Some("un"),
                 precision: 1,
                 width: 12,
-            }, // 0.0
+            },
 
             FlecsField::ExtraTotal2 => FieldMeta {
                 unit: Some("bbl"),
                 precision: 1,
                 width: 12,
-            }, // 0.0
+            },
 
             // 28..32
             FlecsField::WaterSlurryRatio => FieldMeta {
